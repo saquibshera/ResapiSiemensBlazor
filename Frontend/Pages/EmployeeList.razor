@@ -1,0 +1,49 @@
+﻿@page "/EmployeeDetails"
+@using Frontend.Services;
+<h3>Employee</h3>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Id
+        </th>
+        <th>
+            Address
+        </th>
+    </tr>
+    @if (_employees != null)
+    {
+
+
+        @foreach (var item in _employees)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Id
+                </td>
+                <td>
+                    @item.Address
+                </td>
+            </tr>
+        }
+
+    }
+
+</table>
+
+@code {
+    [Inject]
+    public IEmployeeService _service{ get; set; }
+
+    public IEnumerable<Employee> _employees{ get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+            _employees=(await _service.GetAllEmployees()).ToList();
+    }
+}

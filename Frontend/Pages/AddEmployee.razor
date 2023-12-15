@@ -1,0 +1,29 @@
+﻿@page "/AddEmployee"
+@using Frontend.Services;
+<h3>AddEmployee</h3>
+
+<EditForm Model="@_Employee" OnValidSubmit="HandleValidSubmit">
+                Name<InputText @bind-Value="_Employee.Name"/>
+                Address<InputText @bind-Value="_Employee.Address"/>
+                <button type="submit" class="btn btn-primary">Add Employee</button>
+
+</EditForm>
+
+@code {
+    [Inject]
+    public IEmployeeService _service { get; set; }
+
+    [Inject]
+    public NavigationManager _navigation{ get; set; }
+
+    public Employee _Employee { get; set; } = new Employee();
+
+    public async Task HandleValidSubmit()
+    {
+        var result=await _service.CreateEmployee(_Employee);
+        if(result!=null)
+        {
+            _navigation.NavigateTo("/Employeedetails");
+        }
+    }
+}
